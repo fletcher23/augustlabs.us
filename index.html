@@ -4,378 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>August Labs | Revenue Recovery Systems &mdash; Wheaton, IL</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --black:  #080808;
-      --white:  #f4f1ec;
-      --accent: #c8f542;
-      --mid:    #111111;
-      --muted:  rgba(244,241,236,0.58);
-      --border: rgba(255,255,255,0.07);
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--black);
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      overflow-x: hidden;
-      cursor: none;
-    }
-
-    /* ── CURSOR ── */
-    .cursor {
-      width: 10px; height: 10px;
-      background: var(--accent);
-      border-radius: 50%;
-      position: fixed; pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%,-50%);
-      transition: transform .15s ease;
-    }
-    .cursor-ring {
-      width: 36px; height: 36px;
-      border: 1px solid rgba(200,245,66,0.35);
-      border-radius: 50%;
-      position: fixed; pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%,-50%);
-      transition: width .2s, height .2s, border-color .2s;
-    }
-
-    /* ── GRAIN ── */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      opacity: .025; pointer-events: none; z-index: 1000;
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      padding: 22px 52px;
-      display: flex; align-items: center; justify-content: space-between;
-      border-bottom: 1px solid transparent;
-      transition: border-color .3s, background .3s, backdrop-filter .3s;
-    }
-    nav.scrolled {
-      background: rgba(8,8,8,.88);
-      border-color: var(--border);
-      backdrop-filter: blur(14px);
-    }
-    .nav-logo { height: 80px; width: auto; display: block; }
-    .nav-cta {
-      font-size: 13px; font-weight: 500; letter-spacing: .4px;
-      color: var(--black); background: var(--accent);
-      padding: 11px 24px; border-radius: 100px;
-      text-decoration: none; transition: opacity .2s;
-    }
-    .nav-cta:hover { opacity: .85; }
-
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      padding: 150px 52px 110px;
-      display: flex; flex-direction: column; justify-content: center;
-      position: relative; overflow: hidden;
-    }
-    .hero-glow {
-      position: absolute; top: 0; right: -10%;
-      width: 65vw; height: 100%;
-      background: radial-gradient(ellipse 55% 55% at 60% 40%, rgba(200,245,66,.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .hero-eyebrow {
-      font-size: 11px; font-weight: 500;
-      letter-spacing: 3px; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 36px;
-      opacity: 0; animation: fadeUp .8s .1s forwards;
-    }
-    .hero h1 {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: clamp(56px, 7.5vw, 108px);
-      line-height: .93; letter-spacing: -4px;
-      max-width: 860px;
-      opacity: 0; animation: fadeUp .8s .3s forwards;
-    }
-    .hero h1 em { font-style: normal; color: var(--accent); }
-    .hero-sub {
-      margin-top: 40px; font-size: 19px; font-weight: 300;
-      line-height: 1.7; color: var(--muted); max-width: 480px;
-      opacity: 0; animation: fadeUp .8s .5s forwards;
-    }
-    .hero-btns {
-      margin-top: 52px; display: flex; align-items: center; gap: 28px;
-      opacity: 0; animation: fadeUp .8s .7s forwards;
-    }
-    .btn-primary {
-      font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
-      color: var(--black); background: var(--accent);
-      padding: 16px 38px; border-radius: 100px;
-      text-decoration: none; display: inline-block;
-      transition: transform .2s, opacity .2s;
-    }
-    .btn-primary:hover { transform: translateY(-2px); opacity: .9; }
-    .btn-ghost {
-      font-size: 14px; color: var(--muted);
-      text-decoration: none; transition: color .2s;
-    }
-    .btn-ghost:hover { color: var(--white); }
-    .hero-stats {
-      display: flex; gap: 52px; margin-top: 80px; flex-wrap: wrap;
-      opacity: 0; animation: fadeUp .8s .9s forwards;
-    }
-    .stat-num {
-      font-family: 'Syne', sans-serif; font-size: 56px; font-weight: 800;
-      letter-spacing: -2px; display: block; color: var(--white); line-height: 1;
-    }
-    .stat-label {
-      font-size: 14px; color: var(--muted);
-      letter-spacing: .3px; display: block; margin-top: 10px;
-    }
-
-    /* ── MARQUEE ── */
-    .marquee-wrap {
-      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-      padding: 18px 0; overflow: hidden; background: var(--mid);
-    }
-    .marquee-track {
-      display: flex; gap: 56px;
-      animation: marquee 24s linear infinite; width: max-content;
-    }
-    .marquee-item {
-      font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 600;
-      letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted);
-      white-space: nowrap; display: flex; align-items: center; gap: 20px;
-    }
-    .marquee-item::after { content: '✦'; color: var(--accent); font-size: 9px; }
-
-    /* ── SHARED SECTION ── */
-    .section { padding: 120px 52px; }
-    .section-label {
-      display: block; font-size: 11px; font-weight: 500;
-      letter-spacing: 3px; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 24px;
-    }
-    .section-title {
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      font-size: clamp(34px, 4vw, 54px);
-      letter-spacing: -2px; line-height: 1.05;
-    }
-    .section-title .dim { color: rgba(244,241,236,.32); }
-
-    /* ── PROBLEM ── */
-    .problem { background: var(--mid); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-    .problem-list { display: flex; flex-direction: column; }
-    .problem-item {
-      display: flex; gap: 22px; align-items: flex-start;
-      padding: 30px 0; border-bottom: 1px solid var(--border);
-    }
-    .problem-item:first-child { padding-top: 0; }
-    .problem-item:last-child { border-bottom: none; padding-bottom: 0; }
-    .pi-num {
-      font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
-      color: var(--accent); letter-spacing: 1px; padding-top: 3px; flex-shrink: 0;
-    }
-    .pi-title { font-size: 19px; font-weight: 500; color: var(--white); display: block; margin-bottom: 7px; }
-    .pi-body { font-size: 16px; color: var(--muted); line-height: 1.75; }
-
-    /* ── SERVICES ── */
-    .services-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 2px; margin-top: 64px;
-    }
-    .svc-card {
-      background: var(--mid); padding: 52px 44px;
-      position: relative; overflow: hidden; transition: background .3s;
-    }
-    .svc-card:hover { background: #1a1a1a; }
-    .svc-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: var(--accent); transform: scaleX(0); transform-origin: left;
-      transition: transform .4s ease;
-    }
-    .svc-card:hover::before { transform: scaleX(1); }
-    .svc-icon { font-size: 30px; margin-bottom: 28px; display: block; }
-    .svc-card h3 {
-      font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700;
-      letter-spacing: -.5px; margin-bottom: 14px;
-    }
-    .svc-card p { font-size: 16px; color: var(--muted); line-height: 1.75; }
-
-    /* ── HOW IT WORKS ── */
-    .how { background: var(--mid); border-top: 1px solid var(--border); }
-    .steps-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 2px; margin-top: 64px;
-    }
-    .step { background: var(--black); padding: 44px 36px; }
-    .step-num {
-      font-family: 'Syne', sans-serif; font-size: 72px; font-weight: 800;
-      color: rgba(200,245,66,.18); line-height: 1; letter-spacing: -4px;
-      margin-bottom: 20px;
-    }
-    .step h4 { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 12px; }
-    .step p { font-size: 16px; color: var(--muted); line-height: 1.75; }
-
-    /* ── WHO WE SERVE ── */
-    .tags { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 52px; }
-    .tag {
-      font-size: 14px; padding: 12px 26px;
-      border: 1px solid var(--border); border-radius: 100px;
-      color: var(--muted); transition: border-color .2s, color .2s;
-      cursor: default;
-    }
-    .tag:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* ── CTA BAND ── */
-    .cta-band {
-      background: var(--accent); padding: 110px 52px; text-align: center;
-    }
-    .cta-band h2 {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: clamp(44px, 6vw, 80px);
-      color: var(--black); letter-spacing: -3px; line-height: .95;
-      margin-bottom: 22px;
-    }
-    .cta-band p {
-      font-size: 17px; color: rgba(8,8,8,.55);
-      max-width: 400px; margin: 0 auto 44px; line-height: 1.65;
-    }
-    .btn-dark {
-      font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
-      color: var(--accent); background: var(--black);
-      padding: 18px 44px; border-radius: 100px;
-      text-decoration: none; display: inline-block;
-      transition: transform .2s;
-    }
-    .btn-dark:hover { transform: translateY(-2px); }
-
-    /* ── CONTACT FORM ── */
-    .form-section { background: var(--mid); border-top: 1px solid var(--border); }
-    .form-wrap { max-width: 540px; margin-top: 52px; }
-    .form-consent {
-      font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 32px;
-      padding: 18px 22px; border: 1px solid var(--border); border-radius: 10px;
-    }
-    .form-fields { display: flex; flex-direction: column; gap: 14px; }
-    .form-fields input {
-      background: rgba(255,255,255,.04); border: 1px solid var(--border);
-      border-radius: 8px; padding: 16px 20px;
-      color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 15px;
-      outline: none; width: 100%; transition: border-color .2s;
-    }
-    .form-fields input:focus { border-color: rgba(200,245,66,.45); }
-    .form-fields input::placeholder { color: rgba(244,241,236,.25); }
-    .form-submit {
-      background: var(--accent); color: var(--black);
-      border: none; border-radius: 100px;
-      padding: 18px 44px; font-family: 'DM Sans', sans-serif;
-      font-size: 15px; font-weight: 500; cursor: pointer;
-      margin-top: 8px; transition: opacity .2s, transform .2s;
-      display: inline-block; text-align: left;
-    }
-    .form-submit:hover { opacity: .9; transform: translateY(-1px); }
-    .form-success {
-      font-size: 14px; color: var(--accent);
-      margin-top: 16px; display: none; line-height: 1.6;
-    }
-    .form-legal {
-      font-size: 12px; color: rgba(244,241,236,.28);
-      margin-top: 20px; line-height: 1.65;
-    }
-    .form-legal a { color: var(--accent); text-decoration: none; }
-
-    /* ── LEGAL ── */
-    .legal-section { border-top: 1px solid var(--border); }
-    .legal-section.alt { background: var(--mid); }
-    .legal-body {
-      max-width: 720px; margin-top: 36px;
-      font-size: 14px; color: rgba(244,241,236,.6); line-height: 1.8;
-    }
-    .legal-body h3 {
-      font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
-      color: var(--white); margin: 28px 0 8px;
-    }
-    .legal-body h3:first-child { margin-top: 0; }
-    .legal-body p { margin-bottom: 12px; }
-
-    /* ── FOOTER ── */
-    footer {
-      padding: 36px 52px;
-      border-top: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 16px;
-    }
-    .footer-logo { height: 26px; width: auto; }
-    .footer-links { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
-    .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color .2s; }
-    .footer-links a:hover { color: var(--accent); }
-    .footer-copy { font-size: 12px; color: rgba(244,241,236,.22); }
-
-    /* ── KEYFRAMES ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(26px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes marquee {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-
-    /* ── SCROLL REVEAL ── */
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 1000px) {
-      nav { padding: 20px 28px; }
-      .hero { padding: 130px 28px 80px; }
-      .section { padding: 88px 28px; }
-      .two-col { grid-template-columns: 1fr; gap: 52px; }
-      .services-grid { grid-template-columns: 1fr; }
-      .steps-grid { grid-template-columns: 1fr 1fr; }
-      footer { padding: 32px 28px; }
-      .cta-band { padding: 80px 28px; }
-    }
-    @media (max-width: 600px) {
-      .hero h1 { font-size: clamp(46px, 13vw, 72px); letter-spacing: -2px; }
-      .hero-btns { flex-direction: column; align-items: flex-start; gap: 16px; }
-      .hero-stats { gap: 32px; }
-      .steps-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
-  <!-- ════════════════════════════════════════════
-       NAV
-  ═════════════════════════════════════════════ -->
   <nav id="nav">
     <a href="#"><img src="/assets/AugustLabs_logo_tx.svg" alt="August Labs" class="nav-logo" /></a>
-    <a href="#contact" class="nav-cta">Get a free audit</a>
+    <a href="#contact" class="nav-cta">Request a Free Audit</a>
   </nav>
 
-  <!-- ════════════════════════════════════════════
-       HERO
-  ═════════════════════════════════════════════ -->
   <section class="hero">
     <div class="hero-glow"></div>
     <p class="hero-eyebrow">Wheaton, IL &mdash; Serving the Western Suburbs</p>
     <h1>Stop losing<br/><em>revenue</em><br/>you already<br/>earned.</h1>
     <p class="hero-sub">We install automated lead recovery systems for local businesses. Every missed call, every cold lead, every unconverted inquiry&mdash;recovered automatically.</p>
     <div class="hero-btns">
-      <a href="#contact" class="btn-primary">Get your free audit</a>
+      <a href="#contact" class="btn-primary">Request a Free Audit</a>
       <a href="#how" class="btn-ghost">See how it works &darr;</a>
     </div>
     <div class="hero-stats">
@@ -394,9 +38,6 @@
     </div>
   </section>
 
-  <!-- ════════════════════════════════════════════
-       MARQUEE
-  ═════════════════════════════════════════════ -->
   <div class="marquee-wrap" aria-hidden="true">
     <div class="marquee-track">
       <span class="marquee-item">Missed Call Recovery</span>
@@ -414,15 +55,12 @@
     </div>
   </div>
 
-  <!-- ════════════════════════════════════════════
-       PROBLEM
-  ═════════════════════════════════════════════ -->
   <section class="section problem">
     <div class="two-col">
       <div class="reveal">
         <span class="section-label">The problem</span>
         <h2 class="section-title">You are paying for leads<br/><span class="dim">you never follow up on.</span></h2>
-        <p style="font-size:17px;color:var(--muted);line-height:1.75;margin-top:28px;max-width:380px;">Most local businesses spend thousands attracting new customers. Then let half of them slip away after the first contact. The fix is not more marketing. It is better follow-through.</p>
+        <p class="problem-intro">Most local businesses spend thousands attracting new customers. Then let half of them slip away after the first contact. The fix is not more marketing. It is better follow-through.</p>
       </div>
       <div class="problem-list reveal">
         <div class="problem-item">
@@ -450,9 +88,6 @@
     </div>
   </section>
 
-  <!-- ════════════════════════════════════════════
-       SERVICES
-  ═════════════════════════════════════════════ -->
   <section class="section">
     <span class="section-label reveal">What we install</span>
     <h2 class="section-title reveal" style="max-width:600px;">Three systems. One outcome.<br/>More booked revenue.</h2>
@@ -475,9 +110,6 @@
     </div>
   </section>
 
-  <!-- ════════════════════════════════════════════
-       HOW IT WORKS
-  ═════════════════════════════════════════════ -->
   <section class="section how" id="how">
     <span class="section-label reveal">How it works</span>
     <h2 class="section-title reveal">Live in 30 days.<br/>Results in the first week.</h2>
@@ -505,9 +137,6 @@
     </div>
   </section>
 
-  <!-- ════════════════════════════════════════════
-       WHO WE SERVE
-  ═════════════════════════════════════════════ -->
   <section class="section" style="border-top:1px solid var(--border);">
     <span class="section-label reveal">Who we work with</span>
     <h2 class="section-title reveal" style="max-width:560px;">Local businesses in the western suburbs with leads worth recovering.</h2>
@@ -527,136 +156,109 @@
     </div>
   </section>
 
-  <!-- ════════════════════════════════════════════
-       CTA BAND
-  ═════════════════════════════════════════════ -->
   <div class="cta-band">
     <h2 class="reveal">Ready to stop<br/>losing leads?</h2>
     <p class="reveal">We are offering free audits to a limited number of local businesses this month. No pitch. Just an honest look at what you are losing and how to fix it.</p>
     <a href="#contact" class="btn-dark reveal">Request your free audit</a>
   </div>
 
-  <!-- ════════════════════════════════════════════
-       CONTACT / OPT-IN FORM
-  ═════════════════════════════════════════════ -->
   <section class="section form-section" id="contact">
     <span class="section-label reveal">Get started</span>
     <h2 class="section-title reveal" style="max-width:480px;">Request your free audit.</h2>
     <div class="form-wrap reveal">
       <div class="form-consent">
-        By submitting this form, you consent to receive SMS and email communications from August Labs LLC regarding our services. Message frequency varies. Message and data rates may apply. Reply <strong>STOP</strong> to opt out of SMS at any time. Reply <strong>HELP</strong> for help.
+        <p><strong>August Labs LLC</strong> may contact you by email about your audit request. If you check the optional SMS consent box below, you also agree to receive marketing and informational text messages from August Labs LLC at the number you provide. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply <strong>STOP</strong> to opt out and <strong>HELP</strong> for help. Review our <a href="#privacy">Privacy Policy</a> and <a href="#terms">Terms of Service</a>.</p>
       </div>
-      <div class="form-fields">
-        <input type="text"  id="f-name"     placeholder="Your name"     autocomplete="name" />
-        <input type="text"  id="f-business" placeholder="Business name" autocomplete="organization" />
-        <input type="email" id="f-email"    placeholder="Email address" autocomplete="email" />
-        <input type="tel"   id="f-phone"    placeholder="Phone number"  autocomplete="tel" />
-        <button class="form-submit" onclick="submitForm()">Request Free Audit &rarr;</button>
-        <p class="form-success" id="form-success">&#10003;&nbsp; Thanks! We will be in touch within 24 hours.</p>
+      <form class="form-fields" id="audit-form" action="https://formsubmit.co/dan@augustlabs.us" method="POST">
+        <input type="hidden" name="_subject" value="New August Labs audit request" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_next" value="https://augustlabs.us/?submitted=true#contact" />
+        <input type="hidden" name="_honey" value="" />
+        <input type="text" name="name" id="f-name" placeholder="Your name" autocomplete="name" required />
+        <input type="text" name="business" id="f-business" placeholder="Business name" autocomplete="organization" required />
+        <input type="email" name="email" id="f-email" placeholder="Email address" autocomplete="email" required />
+        <input type="tel" name="phone" id="f-phone" placeholder="Phone number" autocomplete="tel" required />
+        <textarea name="notes" id="f-notes" placeholder="Anything we should know about your lead flow?" rows="5"></textarea>
+        <label class="consent-check" for="sms-consent">
+          <input type="checkbox" name="sms_consent" id="sms-consent" value="I agree to receive marketing and informational SMS from August Labs LLC. Message frequency varies. Message and data rates may apply. Reply STOP to opt out and HELP for help." />
+          <span>I agree to receive marketing and informational SMS from August Labs LLC. This checkbox is optional and is not required to submit the form.</span>
+        </label>
+        <button class="form-submit" type="submit">Request Free Audit &rarr;</button>
+        <p class="form-success" id="form-success">&#10003;&nbsp; Thanks. Your request was submitted successfully.</p>
+      </form>
+      <p class="form-legal">Form submissions are routed through a form endpoint and sent to <a href="mailto:dan@augustlabs.us">dan@augustlabs.us</a>. Do not use purchased or rented lead lists for outreach.</p>
+    </div>
+  </section>
+
+  <section class="section legal-shell">
+    <span class="section-label reveal">Legal</span>
+    <div class="legal-accordion reveal">
+      <div class="legal-panel" id="privacy">
+        <button class="legal-summary" type="button" aria-expanded="false" aria-controls="privacy-panel">
+          <span>Privacy Policy</span>
+          <span class="legal-icon" aria-hidden="true"></span>
+        </button>
+        <div class="legal-body" id="privacy-panel" hidden>
+          <h3>Last Updated: March 2026</h3>
+          <p>August Labs LLC ("we", "us", or "our") operates augustlabs.us. This page explains how we collect, use, and protect personal information submitted through our website.</p>
+          <h3>Information We Collect</h3>
+          <p>We collect information you provide directly to us, including your name, business name, email address, phone number, and any message details when you submit our contact form.</p>
+          <h3>How We Use Information</h3>
+          <p>We use this information to respond to your inquiry, evaluate whether our services are a fit, and communicate with you about August Labs LLC services.</p>
+          <h3>SMS Communications</h3>
+          <p>If you explicitly opt in via the optional checkbox on our form, you agree to receive marketing and informational SMS messages from August Labs LLC. Message frequency varies. Message and data rates may apply. Reply STOP to unsubscribe at any time. Reply HELP for assistance. Consent is not a condition of purchase.</p>
+          <h3>Information Sharing</h3>
+          <p>We do not sell or rent your personal information. We may share information only with service providers that help us operate our website and communications, or when required by law.</p>
+          <h3>Data Security</h3>
+          <p>We use reasonable safeguards to protect the information you submit. No online transmission or storage system can be guaranteed 100% secure.</p>
+          <h3>Contact Us</h3>
+          <p>For privacy-related questions, contact us at <a href="mailto:dan@augustlabs.us" style="color:var(--accent);">dan@augustlabs.us</a> or August Labs LLC, Wheaton, Illinois.</p>
+        </div>
       </div>
-      <p class="form-legal">Your information is never sold or shared with third parties. We do not use purchased or rented lead lists. See our <a href="#privacy">Privacy Policy</a> and <a href="#terms">Terms of Service</a>.</p>
+
+      <div class="legal-panel" id="terms">
+        <button class="legal-summary" type="button" aria-expanded="false" aria-controls="terms-panel">
+          <span>Terms of Service</span>
+          <span class="legal-icon" aria-hidden="true"></span>
+        </button>
+        <div class="legal-body" id="terms-panel" hidden>
+          <h3>Last Updated: March 2026</h3>
+          <p>By accessing augustlabs.us and submitting your information, you agree to these Terms of Service. August Labs LLC may update these terms from time to time, and continued use of the site constitutes acceptance of the updated terms.</p>
+          <h3>Services</h3>
+          <p>August Labs LLC provides automated lead recovery and revenue operations systems for local service businesses in the Chicagoland area. Specific deliverables, timelines, and pricing are governed by separate client agreements.</p>
+          <h3>Communications Consent</h3>
+          <p>By submitting your contact information, you agree that August Labs LLC may contact you by email regarding your inquiry. If you separately opt in to SMS, you also agree to receive marketing and informational text messages. Consent is not a condition of purchase. Reply STOP to opt out and HELP for help.</p>
+          <h3>Intellectual Property</h3>
+          <p>All content on this website, including text, graphics, branding, and design, is the property of August Labs LLC and may not be reproduced without written permission.</p>
+          <h3>Limitation of Liability</h3>
+          <p>August Labs LLC is not liable for any indirect, incidental, special, or consequential damages arising from the use of our website or services. Our total liability is limited to the amount paid by you for services in the preceding 30 days.</p>
+          <h3>Governing Law</h3>
+          <p>These terms are governed by the laws of the State of Illinois. Any disputes will be resolved in the courts of DuPage County, Illinois.</p>
+          <h3>Contact Us</h3>
+          <p>For questions about these terms, contact us at <a href="mailto:dan@augustlabs.us" style="color:var(--accent);">dan@augustlabs.us</a>.</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- ════════════════════════════════════════════
-       PRIVACY POLICY
-  ═════════════════════════════════════════════ -->
-  <section class="section legal-section" id="privacy">
-    <span class="section-label">Privacy Policy</span>
-    <div class="legal-body">
-      <h3>Last Updated: March 2025</h3>
-      <p>August Labs LLC ("we", "us", or "our") operates augustlabs.us. This page informs you of our policies regarding the collection, use, and disclosure of personal information we receive from users of this site.</p>
-      <h3>Information We Collect</h3>
-      <p>We collect information you provide directly to us, including your name, business name, email address, and phone number when you submit our contact form. We use this information solely to respond to your inquiry and communicate about our services.</p>
-      <h3>SMS Communications</h3>
-      <p>By providing your phone number and submitting our form, you consent to receive SMS messages from August Labs LLC related to our services. Message frequency varies. Message and data rates may apply. Reply STOP to unsubscribe at any time. Reply HELP for assistance. We do not use purchased, rented, or affiliate lead lists for SMS campaigns.</p>
-      <h3>Information Sharing</h3>
-      <p>We do not sell, trade, or otherwise transfer your personal information to outside parties. We may share information only as required by law or to protect our rights.</p>
-      <h3>Data Security</h3>
-      <p>We implement appropriate security measures to protect your personal information. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
-      <h3>Contact Us</h3>
-      <p>For privacy-related questions, contact us at <a href="mailto:dan@augustlabs.us" style="color:var(--accent);">dan@augustlabs.us</a> or August Labs LLC, Wheaton, Illinois.</p>
-    </div>
-  </section>
-
-  <!-- ════════════════════════════════════════════
-       TERMS OF SERVICE
-  ═════════════════════════════════════════════ -->
-  <section class="section legal-section alt" id="terms">
-    <span class="section-label">Terms of Service</span>
-    <div class="legal-body">
-      <h3>Last Updated: March 2025</h3>
-      <p>By accessing augustlabs.us and submitting your information, you agree to these Terms of Service. August Labs LLC reserves the right to modify these terms at any time. Continued use of our site constitutes acceptance of any updated terms.</p>
-      <h3>Services</h3>
-      <p>August Labs LLC provides automated lead recovery and revenue operations systems for local service businesses in the Chicagoland area. Specific service terms, deliverables, and pricing are outlined in individual client agreements.</p>
-      <h3>Communications Consent</h3>
-      <p>By submitting your contact information through our website, you agree to be contacted by August Labs LLC via email and SMS regarding our services. You may opt out of SMS communications at any time by replying STOP. You may opt out of email communications by contacting <a href="mailto:dan@augustlabs.us" style="color:var(--accent);">dan@augustlabs.us</a>.</p>
-      <h3>Intellectual Property</h3>
-      <p>All content on this website, including text, graphics, and design, is the property of August Labs LLC and may not be reproduced without written permission.</p>
-      <h3>Limitation of Liability</h3>
-      <p>August Labs LLC shall not be liable for any indirect, incidental, special, or consequential damages arising from use of our services or website. Our total liability shall not exceed the amount paid by you for services in the preceding 30 days.</p>
-      <h3>Governing Law</h3>
-      <p>These terms are governed by the laws of the State of Illinois. Any disputes shall be resolved in the courts of DuPage County, Illinois.</p>
-      <h3>Contact Us</h3>
-      <p>For questions about these terms, contact us at <a href="mailto:dan@augustlabs.us" style="color:var(--accent);">dan@augustlabs.us</a>.</p>
-    </div>
-  </section>
-
-  <!-- ════════════════════════════════════════════
-       FOOTER
-  ═════════════════════════════════════════════ -->
   <footer>
-    <a href="#"><img src="AugustLabs_logo.png" alt="August Labs" class="footer-logo" /></a>
+    <a href="#"><img src="/assets/AugustLabs_logo_tx.svg" alt="August Labs" class="footer-logo" /></a>
     <div class="footer-links">
-      <a href="#contact">Get a free audit</a>
+      <a href="#contact">Request a Free Audit</a>
       <a href="#privacy">Privacy Policy</a>
       <a href="#terms">Terms of Service</a>
       <a href="mailto:dan@augustlabs.us">dan@augustlabs.us</a>
     </div>
-    <p class="footer-copy">&copy; 2025 August Labs LLC &mdash; Wheaton, IL</p>
+    <p class="footer-copy">&copy; 2026 August Labs LLC &mdash; Wheaton, IL</p>
   </footer>
 
-  <!-- ════════════════════════════════════════════
-       SCRIPTS
-  ═════════════════════════════════════════════ -->
   <script>
-    // Custom cursor
-    const cursor  = document.getElementById('cursor');
-    const ring    = document.getElementById('cursorRing');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      cursor.style.left = mx + 'px';
-      cursor.style.top  = my + 'px';
-    });
-    (function animRing() {
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
-      ring.style.left = rx + 'px';
-      ring.style.top  = ry + 'px';
-      requestAnimationFrame(animRing);
-    })();
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.style.transform = 'translate(-50%,-50%) scale(2.5)';
-        ring.style.width = '56px'; ring.style.height = '56px';
-        ring.style.borderColor = 'rgba(200,245,66,0.75)';
-      });
-      el.addEventListener('mouseleave', () => {
-        cursor.style.transform = 'translate(-50%,-50%) scale(1)';
-        ring.style.width = '36px'; ring.style.height = '36px';
-        ring.style.borderColor = 'rgba(200,245,66,0.35)';
-      });
-    });
-
-    // Nav scroll
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 40);
     });
 
-    // Scroll reveal
-    const reveals  = document.querySelectorAll('.reveal');
+    const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver(entries => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
@@ -666,21 +268,26 @@
     }, { threshold: 0.08 });
     reveals.forEach(el => observer.observe(el));
 
-    // Form submit
-    function submitForm() {
-      const name  = document.getElementById('f-name').value.trim();
-      const email = document.getElementById('f-email').value.trim();
-      const phone = document.getElementById('f-phone').value.trim();
-      if (!name || !email || !phone) {
-        alert('Please fill in your name, email address, and phone number.');
-        return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('submitted') === 'true') {
+      const success = document.getElementById('form-success');
+      if (success) {
+        success.style.display = 'block';
       }
-      const btn = document.querySelector('.form-submit');
-      btn.textContent = 'Submitted';
-      btn.style.opacity = '0.55';
-      btn.disabled = true;
-      document.getElementById('form-success').style.display = 'block';
     }
+
+    document.querySelectorAll('.legal-summary').forEach(button => {
+      button.addEventListener('click', () => {
+        const panelId = button.getAttribute('aria-controls');
+        const body = document.getElementById(panelId);
+        const wrapper = button.closest('.legal-panel');
+        const isOpen = button.getAttribute('aria-expanded') === 'true';
+
+        button.setAttribute('aria-expanded', String(!isOpen));
+        wrapper.classList.toggle('is-open', !isOpen);
+        body.hidden = isOpen;
+      });
+    });
   </script>
 </body>
 </html>
