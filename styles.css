@@ -61,7 +61,7 @@ nav.scrolled {
   backdrop-filter: blur(14px);
 }
 
-.nav-logo { height: 80px; width: auto; display: block; }
+.nav-logo { height: 80px; width: auto; display: block; margin: 20px -20px}
 
 .nav-cta {
   font-size: 15px;
@@ -84,7 +84,7 @@ nav.scrolled {
 
 .hero {
   min-height: 100vh;
-  padding: 150px 52px 110px;
+  padding: 150px 52px 11px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -208,7 +208,7 @@ nav.scrolled {
 .marquee-wrap {
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  padding: 18px 0;
+  padding: 25px 0;
   overflow: hidden;
   background: var(--mid);
 }
@@ -235,7 +235,7 @@ nav.scrolled {
 
 .marquee-item::after { content: '✦'; color: var(--accent); font-size: 9px; }
 
-.section { padding: 120px 52px; }
+.section { padding: 100px 52px; }
 
 .section-label {
   display: block;
@@ -336,7 +336,7 @@ nav.scrolled {
 
 .svc-card:hover::before { transform: scaleX(1); }
 
-.svc-icon { font-size: 30px; margin-bottom: 28px; display: block; }
+.svc-icon { height: 40px; width: 50%; margin-bottom: 38px; display: block; align-content: center;}
 
 .svc-card h3 {
   font-family: 'Sora', sans-serif;
