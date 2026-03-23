@@ -53,6 +53,8 @@ img {
 
 .hero-copy {
   max-width: 680px;
+  display: grid;
+  gap: 0;
 }
 
 .eyebrow {
@@ -69,7 +71,15 @@ h1 {
   font-weight: 400;
   line-height: 0.94;
   letter-spacing: -0.04em;
-  max-width: 10ch;
+  max-width: 12ch;
+}
+
+.subhead {
+  max-width: 34ch;
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: clamp(1.02rem, 1.7vw, 1.2rem);
+  line-height: 1.45;
 }
 
 .quote {
@@ -128,6 +138,10 @@ h1 {
   h1 {
     max-width: 11ch;
     font-size: clamp(2.9rem, 14vw, 4.9rem);
+  }
+
+  .subhead {
+    margin-top: 18px;
   }
 
   .quote {
