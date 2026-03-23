@@ -89,25 +89,24 @@ h1 span {
   font-weight: 500;
 }
 
-.hero-video {
-  display: block;
-  width: 100%;
-  margin-top: 34px;
-  max-height: 480px;
-  object-fit: cover;
-}
 
 .quote {
   max-width: 560px;
   margin-top: 28px;
-  color: var(--muted);
-  font-size: 0.95rem;
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-size: 1.1rem;
   line-height: 1.5;
+  color: var(--text);
 }
 
 .quote cite {
   display: block;
   margin-top: 6px;
+  font-style: normal;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 
 .products {
