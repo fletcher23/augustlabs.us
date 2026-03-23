@@ -14,7 +14,6 @@
 }
 
 body {
-  min-height: 100vh;
   background: var(--page);
   color: var(--text);
   font-family: "Space Grotesk", sans-serif;
@@ -31,15 +30,15 @@ img {
 }
 
 .page {
-  min-height: 100vh;
-  padding: 44px 20px;
+  max-height: 100%;
+  max-width:100%;
   display: grid;
   place-items: center;
 }
 
 .studio-card {
-  width: min(100%, 980px);
-  padding: 30px 40px 34px;
+  height: 675px;
+  padding: 125px 40px 34px;
   background: var(--card);
   border: 1px solid rgba(92, 38, 255, 0.9);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.16);
