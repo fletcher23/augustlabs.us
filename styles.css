@@ -50,6 +50,8 @@ img {
 
 .logo {
   width: 190px;
+  display: block;
+  margin: 0 auto;
 }
 
 .copy-block {
@@ -91,6 +93,8 @@ h1 span {
   color: #0b0f0c;
   font-size: 1rem;
   font-weight: 500;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
@@ -102,6 +106,7 @@ h1 span {
   font-size: 1.1rem;
   line-height: 1.5;
   color: var(--text);
+  text-align: center;
 }
 
 .quote cite {
